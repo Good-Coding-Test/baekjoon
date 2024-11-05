@@ -7,6 +7,7 @@ const input = require("fs")
 const board = [];
 const answer = [];
 let cnt = 0;
+let count = 0;
 const Indexs = {};
 
 const checkBingo = (x, y) => {
@@ -55,7 +56,7 @@ for (let i = 0; i < 5; i++) {
     };
   }
 }
-let count = 0;
+
 let flag = false;
 for (let i = 0; i < 5; i++) {
   for (let j = 0; j < 5; j++) {
