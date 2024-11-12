@@ -39,7 +39,6 @@ public class Main {
 
 		n = input.nextInt();
 		list = new hNode[n];
-		sum = new int[n];
 
 		for (int i = 0; i < n; i++) {
 			int time = input.nextInt();
