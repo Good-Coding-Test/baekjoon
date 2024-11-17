@@ -3,6 +3,7 @@ const input = require("fs")
   .toString()
   .trim()
   .split("\n");
+
 const givenCash = +input[0];
 
 const info = input[1].split(" ").map((e) => +e);
