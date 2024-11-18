@@ -44,6 +44,7 @@ const di = [
   [0, -1],
 ];
 let flag = false;
+
 let idx = 0;
 let cnt = 0;
 
