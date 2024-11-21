@@ -3,6 +3,7 @@ const input = require("fs")
   .toString()
   .trim()
   .split("\n");
+
 const [n, ...arr] = input;
 const N = Number(n);
 const counsel = arr.map((tp) => tp.split(" ").map(Number));
