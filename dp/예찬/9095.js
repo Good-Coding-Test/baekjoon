@@ -1,24 +1,25 @@
 const input = require("fs")
   .readFileSync(process.platform === "linux" ? "/dev/stdin" : "input.txt")
   .toString()
-  .trim();
+  .trim()
+  .split("\n")
+  .map(Number);
 
-const n = parseInt(input);
+const T = input[0];
+const testCase = input.slice(1);
 
-function DP() {
-  if (n === 1) return 1;
-  if (n === 2) return 2;
-  const method = new Array(n).fill(0);
-  method[0] = 1;
-  method[1] = 2;
+let answer = [];
 
-  if (n > 2) {
-    for (let i = 2; i <= n; i++) {
-      // 값 오버플로우가 발생하지 않도록 미리 나머지연산
-      method[i] = (method[i - 1] + method[i - 2]) % 10007;
-    }
+for (let i = 0; i < T; i++) {
+  function DP(n) {
+    if (n < 0) return 0;
+    if (n === 0) return 1;
+    if (answer[n]) return answer[n];
+
+    answer[n] = DP(n - 1) + DP(n - 2) + DP(n - 3);
+    return answer[n];
   }
-  return method[n - 1];
-}
 
-console.log(DP());
+  DP(testCase[i]);
+  console.log(answer[testCase[i]]);
+}
