@@ -1,1 +1,1 @@
-ababc
+<open>tag<close>
