@@ -36,10 +36,16 @@ public class Main {
         StringTokenizer st = new StringTokenizer(bf.readLine());
         int n=Integer.parseInt(st.nextToken());
         int m=Integer.parseInt(st.nextToken());
+        int[] array = new int[n];
+        StringTokenizer sf = new StringTokenizer(bf.readLine());
+        for(int i=0; i<n; i++){
+            array[i]=Integer.parseInt(sf.nextToken());
+        }
+        
         visited= new boolean[n];
         arr = new int[m];
 
-        dfs(n,m,0);
+        dfs(n,m,arr,0);
 
 
     }
