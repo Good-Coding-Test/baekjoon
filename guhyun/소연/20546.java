@@ -1,61 +1,74 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
+
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        int money= Integer.parseInt(bf.readLine());
-        int[] arr = new int[14];
-        String[] inputs =bf.readLine().split(" ");
+        int money = Integer.parseInt(bf.readLine());
+        int[] stock = new int[14];
+        StringTokenizer st = new StringTokenizer(bf.readLine());
         for(int i=0; i<14; i++){
-            arr[i]=Integer.parseInt(inputs[i]);
+            stock[i]=Integer.parseInt(st.nextToken());
         }
-        int Jun=Junhyun(money, arr);
-        int Sung = Sungmin(money, arr);
-
+        int Jun= Jun(stock, money);
+        //System.out.println("준현"+Jun);
+        int Sung = Sung(stock,money);
+        //System.out.println("성민"+Sung);
         if(Jun>Sung){
             System.out.println("BNP");
         }
-        else if(Sung>Jun){
+        else if(Jun<Sung){
             System.out.println("TIMING");
         }
         else{
             System.out.println("SAMESAME");
         }
 
-
+        
     }
-    public static int Junhyun(int money, int[] arr) {
-        int stock_count = 0;
-        for (int i = 0; i < 14; i++) {
-            if (money > 0 && money >= arr[i]) {
-                stock_count += money / arr[i];
-                money -= (money / arr[i]) * arr[i];
+
+    static int Jun (int[] stock, int money){
+        int count=0;
+        for(int i=0; i<14; i++){
+            count+=money/stock[i];
+            money=money%stock[i];
+            if(i==13){
+                return stock[i]*count+money;
             }
         }
-        money+=stock_count*arr[13];
-        return money;
+        return 0;
     }
 
-    public static int Sungmin(int money, int[] arr) {
-        int stock_count = 0;
-        for (int i = 3; i < 14; i++) {
-            if ((arr[i-3]<arr[i-2])&&(arr[i-2]<arr[i-1])&&(arr[i-1]<arr[i])&& stock_count>0){
-                money += stock_count * arr[i];
-                stock_count = 0;
-            }
-            else if ((arr[i-3]>arr[i-2])&&(arr[i-2]>arr[i-1])&&(arr[i-1]>arr[i])) {
-                if (money >= arr[i]) {
-                    stock_count += money / arr[i];
-                    money %= arr[i];
+    static int Sung (int[] stock, int money){
+        int count=0;
+        for(int i=0; i<14; i++){
+            if(i>2){
+                if(stock[i]<stock[i-1] && stock[i-1]<stock[i-2] && stock[i-2]<stock[i-3]){
+                    //매수
+                    count+=money/stock[i];
+                    money=money%stock[i];
+                    //System.out.println("매수 하였습니다 현재는"+ (i+1)+"일"+"가격은"+stock[i]);
+                }
+                if(stock[i]>stock[i-1] && stock[i-1]>stock[i-2] && stock[i-2] > stock[i-3]){
+                    if(count>0){
+                        // 매도
+                        money=stock[i]*count;
+                        count=0;
+                        //System.out.println("매도 하였습니다 현재는"+ (i+1)+"일"+"가격은"+stock[i]);
+                    }
+
+                }
+                if(i==13){
+                    return stock[i]*count+money;
                 }
             }
         }
-        money+=stock_count*arr[13];
-
-        return money;
+        return 0;
     }
-
 }
