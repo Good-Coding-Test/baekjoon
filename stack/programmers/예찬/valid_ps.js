@@ -1,13 +1,21 @@
 function solution(s) {
-  const stack = [];
+  var answer = true;
+  let stack = [];
 
   for (let i = 0; i < s.length; i++) {
-    if (stack[stack.length - 1] === "(" && s[i] === ")") {
-      stack.pop();
-    } else {
+    if (s[i] === "(") {
       stack.push(s[i]);
+    } else {
+      if (!stack.length || stack[stack.length - 1] === ")") {
+        answer = false;
+        break;
+      } else {
+        stack.pop();
+      }
     }
   }
 
-  return !stack.length;
+  if (stack.length) answer = false;
+
+  return answer;
 }
