@@ -6,7 +6,7 @@ function solution(s) {
     if (s[i] === "(") {
       stack.push(s[i]);
     } else {
-      if (!stack.length || stack[stack.length - 1] === ")") {
+      if (!stack.length) {
         answer = false;
         break;
       } else {
