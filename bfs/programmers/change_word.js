@@ -1,27 +1,27 @@
 function solution(begin, target, words) {
   if (!words.includes(target)) return 0;
 
-  const visited = new Map();
+  let needVisit = [begin];
+  let visited = new Map();
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
-  const queue = [begin];
 
   visited.set(begin, 0);
 
-  while (queue.length) {
-    const word = queue.shift();
-    const depth = visited.get(word);
+  while (needVisit.length) {
+    let word = needVisit.shift();
+    let depth = visited.get(word);
 
     if (word === target) return depth;
 
     for (let i = 0; i < word.length; i++) {
-      for (let ch of alphabet) {
-        if (ch === word[i]) continue;
+      for (let j = 0; j < alphabet.length; j++) {
+        if (alphabet[j] === word[i]) continue;
 
-        const next = word.slice(0, i) + ch + word.slice(i + 1);
+        const changed_word = word.slice(0, i) + alphabet[j] + word.slice(i + 1);
 
-        if (words.includes(next) && !visited.has(next)) {
-          visited.set(next, depth + 1);
-          queue.push(next);
+        if (words.includes(changed_word) && !visited.has(changed_word)) {
+          visited.set(changed_word, depth + 1);
+          needVisit.push(changed_word);
         }
       }
     }
