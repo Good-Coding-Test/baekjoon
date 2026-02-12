@@ -26,22 +26,24 @@ for (let i = 0; i < K; i++) {
 
   function bfs(start) {
     let needVisit = [start];
+    vertex[start] = 1;
 
     while (needVisit.length) {
       const cur = needVisit.shift();
       for (let v of graph[cur]) {
         if (!vertex[v]) {
-          vertex[start] === 1 ? (vertex[v] = -1) : (vertex[v] = 1);
-          needVisit.push();
-        } else if (vertex[v] === vertex[start]) {
+          vertex[v] = -vertex[cur];
+          needVisit.push(v);
+        } else if (vertex[cur] === vertex[v]) {
           return false;
         }
       }
     }
+
     return true;
   }
 
-  for (let k = 0; k < V; k++) {
+  for (let k = 1; k <= V; k++) {
     if (!vertex[k]) {
       if (!bfs(k)) {
         flag = false;
@@ -51,6 +53,7 @@ for (let i = 0; i < K; i++) {
   }
 
   answer.push(flag ? "YES" : "NO");
+  input = input.slice(E);
 }
 
 console.log(answer.join("\n"));
