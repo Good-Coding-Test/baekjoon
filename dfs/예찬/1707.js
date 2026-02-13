@@ -13,13 +13,10 @@ for (let i = 0; i < K; i++) {
   const [V, E] = input[0].split(" ").map(Number);
   input = input.slice(1);
 
-  let graph = {};
+  let graph = Array.from({ length: V + 1 }, () => []);
 
   for (let j = 0; j < E; j++) {
     const [a, b] = input[j].split(" ").map(Number);
-
-    if (!graph[a]) graph[a] = [];
-    if (!graph[b]) graph[b] = [];
 
     graph[a].push(b);
     graph[b].push(a);
