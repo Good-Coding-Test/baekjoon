@@ -1,62 +1,35 @@
-let fs = require("fs");
-let input = fs.readFileSync("/dev/stdin").toString().trim().split("\n");
+const input = require("fs")
+  .readFileSync(process.platform === "linux" ? "/dev/stdin" : "input.txt")
+  .toString()
+  .trim()
+  .split("\n");
 
-let [size, ...arr] = input;
-let [row, col] = size.split(" ");
-arr = arr.map((i) => i.split(""));
-const answer = [];
+const [M, N] = input[0].split(" ").map(Number);
+let board = input.slice(1).map((item) => item.split(""));
+let answer = Infinity;
 
-//하얀색이 먼저 시작하는 판
-const white = [
-  "WBWBWBWB",
-  "BWBWBWBW",
-  "WBWBWBWB",
-  "BWBWBWBW",
-  "WBWBWBWB",
-  "BWBWBWBW",
-  "WBWBWBWB",
-  "BWBWBWBW",
-];
+for (let i = 0; i <= M - 8; i++) {
+  for (let j = 0; j <= N - 8; j++) {
+    const tmpMap = board.map((item) => item.slice(j, j + 8)).slice(i, i + 8);
 
-//검은색이 먼저 시작하는 판
-const black = [
-  "BWBWBWBW",
-  "WBWBWBWB",
-  "BWBWBWBW",
-  "WBWBWBWB",
-  "BWBWBWBW",
-  "WBWBWBWB",
-  "BWBWBWBW",
-  "WBWBWBWB",
-];
+    answer = Math.min(answer, counting(tmpMap));
+  }
+}
 
-//하얀색이 먼저 시작하는 판과 비교하여 다르다면 count
-function whiteFirst(x, y) {
-  let count = 0;
+function counting(map) {
+  let count = [0, 0];
+
   for (let i = 0; i < 8; i++) {
     for (let j = 0; j < 8; j++) {
-      if (arr[i + x][j + y] !== white[i][j]) count++;
+      const wFirst = (i + j) % 2 === 0 ? "W" : "B";
+      const bFirst = (i + j) % 2 === 0 ? "B" : "W";
+
+      if (map[i][j] !== wFirst) count[0]++;
+      if (map[i][j] !== bFirst) count[1]++;
     }
   }
-  return count;
+
+  return Math.min(...count);
 }
 
-//검은색이 먼저 시작하는 판과 비교하여 다르다면 count
-function blackFirst(x, y) {
-  let count = 0;
-  for (let i = 0; i < 8; i++) {
-    for (let j = 0; j < 8; j++) {
-      if (arr[i + x][j + y] !== black[i][j]) count++;
-    }
-  }
-  return count;
-}
-
-//전체 판을 움직이는 형태로 작성했기에, -7을 해줌으로써 전체 판을 벗어나지 않게 해준다.
-for (let j = 0; j < row - 7; j++) {
-  for (let k = 0; k < col - 7; k++) {
-    answer.push(whiteFirst(j, k));
-    answer.push(blackFirst(j, k));
-  }
-}
-console.log(Math.min(...answer));
+console.log(answer);
