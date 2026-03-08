@@ -27,7 +27,10 @@ for (let turn = 1; turn <= 1000; turn++) {
 
     const idx = currentChesses[x][y].indexOf(i);
     const moving = currentChesses[x][y];
+
     if (idx !== 0) continue;
+
+    currentChesses[x][y] = [];
 
     let nx = x + dx[d];
     let ny = y + dy[d];
